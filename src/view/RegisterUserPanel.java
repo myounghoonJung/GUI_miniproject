@@ -50,16 +50,16 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 	private boolean phoneNoValidity;
 	private boolean phoneNoOverlapped;
 	private boolean phoneNoDigit;
-	
+
 	private Manager manager = new Manager();
-	
+
 	private Frame tempf;
 
 	public RegisterUserPanel(Frame f) {
 		tempf = f;
 		setSize(780, 680);
 		setLayout(null);
-		
+
 		JPanel registerMainPanel = new JPanel();
 		registerMainPanel.setBackground(new Color(255, 215, 0));
 		registerMainPanel.setBounds(0, 0, 780, 600);
@@ -140,20 +140,20 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 		lblRegisterPwConfirm2.setForeground(new Color(0, 0, 0));
 		lblRegisterPwConfirm2.setBounds(495, 287, 200, 16);
 		registerMainPanel.add(lblRegisterPwConfirm2);
-		
+
 		// 이름 유효성 라벨
 		lblRegisterName = new JLabel("New label");
 		lblRegisterName.setVisible(false);
 		lblRegisterName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegisterName.setBounds(165, 413, 450, 16);
 		registerMainPanel.add(lblRegisterName);
-		
+
 		// 회원 핸드폰번호 중복 확인 라벨
 		lblRegisterPhoneNoOverlapped = new JLabel("new label");
 		lblRegisterPhoneNoOverlapped.setVisible(false);
 		lblRegisterPhoneNoOverlapped.setBounds(495, 446, 200, 16);
 		registerMainPanel.add(lblRegisterPhoneNoOverlapped);
-		
+
 		// 회원 핸드폰번호 입력 필드
 		txtFldRegisterPhoneNo = new JTextField();
 		txtFldRegisterPhoneNo.setText("핸드폰번호를 입력해주세요. (- 포함)");
@@ -162,34 +162,24 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 		txtFldRegisterPhoneNo.setBounds(284, 441, 211, 26);
 		txtFldRegisterPhoneNo.setColumns(10);
 		registerMainPanel.add(txtFldRegisterPhoneNo);
-		
+
 		// 아이디 중복 확인 안내 라벨
 		lblRegisterIdOverlapped = new JLabel("New label");
 		lblRegisterIdOverlapped.setVisible(false);
 		lblRegisterIdOverlapped.setBounds(495, 234, 200, 16);
 		registerMainPanel.add(lblRegisterIdOverlapped);
-		
-		
-		
-		
-		
+
 		// 로그인 서브 패널
 		JPanel registerSubPanel = new JPanel();
 		registerSubPanel.setBackground(new Color(255, 218, 185));
 		registerSubPanel.setBounds(0, 600, 780, 80);
 		registerSubPanel.setLayout(null);
-		
+
 		// 뒤로가기
 		JButton btnBack = new JButton("메인으로");
 		btnBack.setBounds(315, 25, 150, 29);
 		registerSubPanel.add(btnBack);
 		btnBack.setActionCommand("Back");
-		
-		
-		
-		
-		
-		
 
 		// 아이디 입력필드 리스너
 		txtFldRegisterId.addKeyListener(this); // 아이디 유효성 검사
@@ -217,27 +207,18 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 		btnRegister.addActionListener(this);
 
 		btnBack.addActionListener(this);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		add(registerMainPanel);
 		add(registerSubPanel);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// 회원가입 버튼
 		if (e.getActionCommand() == "Register") {
 			if (idValidity && !idOverlapped && !txtFldRegisterId.getText().equals("")
-					&& !txtFldRegisterId.getText().equals("아이디") && pwValidity2 && nameValidity 
-					&& phoneNoValidity && !phoneNoOverlapped) {
+					&& !txtFldRegisterId.getText().equals("아이디") && pwValidity2 && nameValidity && phoneNoValidity
+					&& !phoneNoOverlapped) {
 				System.out.println("회원가입");
 				String pw = "";
 				for (int i = 0; i < pwFldRegister.getPassword().length; i++) {
@@ -257,11 +238,11 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 				JOptionPane.showMessageDialog(null, "입력하신 정보를 다시 확인해주세요.", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
 			}
 		} // end of "Register"
-		// 뒤로가기 버튼
+			// 뒤로가기 버튼
 		else if (e.getActionCommand() == "Back") {
 			Manager.changePanel(tempf, RegisterUserPanel.this, new LoginPanel(tempf));
 		}
-		
+
 	}
 
 	@Override
@@ -385,20 +366,20 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 			idValidity = true;
 			idOverlapped = false;
 			// 아이디 형식이 올바른지
-			for(int i=0; i<txtFldRegisterId.getText().length(); i++) {
-					if (!Character.isUpperCase(txtFldRegisterId.getText().charAt(i)) 
-							&& !Character.isLowerCase(txtFldRegisterId.getText().charAt(i)) 
-							&& !Character.isDigit(txtFldRegisterId.getText().charAt(i))) {
+			for (int i = 0; i < txtFldRegisterId.getText().length(); i++) {
+				if (!Character.isUpperCase(txtFldRegisterId.getText().charAt(i))
+						&& !Character.isLowerCase(txtFldRegisterId.getText().charAt(i))
+						&& !Character.isDigit(txtFldRegisterId.getText().charAt(i))) {
 					idValidity = false;
 				}
 			}
 			// 아이디 중복 검사
-			for (int i=0; i<Frame.getUserList().size(); i++) {
+			for (int i = 0; i < Frame.getUserList().size(); i++) {
 				if (txtFldRegisterId.getText().equals(Frame.getUserList().get(i).getUserId())) {
 					idOverlapped = true;
 				}
 			}
-			
+
 			// 아이디가 빈칸이 아니고 중복이 아니고 유효하면
 			if (!txtFldRegisterId.getText().equals("")) {
 				if (!idOverlapped) {
@@ -406,8 +387,7 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 						lblRegisterIdOverlapped.setVisible(true);
 						lblRegisterIdOverlapped.setText("사용가능한 아이디입니다.");
 						lblRegisterIdOverlapped.setForeground(Color.blue);
-					}
-					else
+					} else
 						lblRegisterIdOverlapped.setVisible(false);
 				}
 				// 아이디가 중복이면
@@ -416,27 +396,26 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 					lblRegisterIdOverlapped.setText("아이디가 중복되었습니다.");
 					lblRegisterIdOverlapped.setForeground(Color.red);
 				}
-			}
-			else
+			} else
 				lblRegisterIdOverlapped.setVisible(false);
-			
+
 			// 아이디가 유효하지 않으면
 			if (!idValidity) {
 				lblRegisterIdConfirm.setText("아이디는 영문 대소문자, 숫자만 가능합니다.");
 				lblRegisterIdConfirm.setForeground(Color.red);
-			} 
+			}
 			// 아이디가 유효하면
 			else {
 				lblRegisterIdConfirm.setText("영대소문자 구분 / 숫자 가능");
 				lblRegisterIdConfirm.setForeground(Color.black);
 			}
-				
+
 		} // end of txtFldRegisterId
-		
+
 		// 패스워드 영대소문자, 숫자, 특수문자 가능
 		else if (e.getSource() == pwFldRegister) {
 			pwValidity = true;
-			for(int i=0; i<pwFldRegister.getPassword().length; i++) {
+			for (int i = 0; i < pwFldRegister.getPassword().length; i++) {
 				if (pwFldRegister.getPassword()[i] == ' ') {
 					pwValidity = false;
 				}
@@ -444,8 +423,7 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 			if (!pwValidity) {
 				lblRegisterPwConfirm.setText("패스워드는 영문 대소문자, 숫자, 특수문자만 가능합니다.");
 				lblRegisterPwConfirm.setForeground(Color.red);
-			}
-			else {
+			} else {
 				lblRegisterPwConfirm.setText("영대소문자 구분 / 숫자, 특수문자 가능");
 				lblRegisterPwConfirm.setForeground(Color.black);
 			}
@@ -477,7 +455,7 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 				}
 			}
 		} // end of pwFldRegister
-		
+
 		// 패스워드 동일한지 판단
 		else if (e.getSource() == pwFldRegister2) {
 			if (pwFldRegister.getPassword().length == pwFldRegister2.getPassword().length) {
@@ -497,15 +475,14 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 					lblRegisterPwConfirm2.setForeground(Color.red);
 					pwValidity2 = false;
 				}
-			}
-			else {
+			} else {
 				lblRegisterPwConfirm2.setVisible(true);
 				lblRegisterPwConfirm2.setText("패스워드가 다릅니다.");
 				lblRegisterPwConfirm2.setForeground(Color.red);
 				pwValidity2 = false;
 			}
 		} // end of pwFldRegister2
-		
+
 		// 이름 문자만 가능
 		else if (e.getSource() == txtFldRegisterName) {
 			nameValidity = true;
@@ -516,14 +493,13 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 			}
 			if (nameValidity) {
 				lblRegisterName.setVisible(false);
-			}
-			else {
+			} else {
 				lblRegisterName.setVisible(true);
 				lblRegisterName.setText("이름은 영문/한글만 가능합니다.");
 				lblRegisterName.setForeground(Color.red);
 			}
 		} // end of txtFldRegisterName
-		
+
 		else if (e.getSource() == txtFldRegisterPhoneNo) {
 			phoneNoValidity = false;
 			phoneNoDigit = true;
@@ -531,7 +507,8 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 			// 핸드폰번호 중복 확인, 유효성 검사
 			if (txtFldRegisterPhoneNo.getText().length() == 13) {
 				for (int i = 0; i < txtFldRegisterPhoneNo.getText().length(); i++) {
-					if (i == 3 || i == 8) continue;
+					if (i == 3 || i == 8)
+						continue;
 					if (!Character.isDigit(txtFldRegisterPhoneNo.getText().charAt(i))) {
 						System.out.println(i + ": " + txtFldRegisterPhoneNo.getText().charAt(i));
 						phoneNoDigit = false;
@@ -545,15 +522,15 @@ public class RegisterUserPanel extends JPanel implements ActionListener, MouseLi
 						lblRegisterPhoneNoOverlapped.setText("이미 가입된 번호입니다.");
 					}
 				}
-				
-				if (!phoneNoOverlapped && phoneNoDigit && txtFldRegisterPhoneNo.getText().charAt(3)=='-' && txtFldRegisterPhoneNo.getText().charAt(8)=='-') {
+
+				if (!phoneNoOverlapped && phoneNoDigit && txtFldRegisterPhoneNo.getText().charAt(3) == '-'
+						&& txtFldRegisterPhoneNo.getText().charAt(8) == '-') {
 					lblRegisterPhoneNoOverlapped.setVisible(true);
 					lblRegisterPhoneNoOverlapped.setText("가입 가능한 번호입니다.");
 					lblRegisterPhoneNoOverlapped.setForeground(Color.BLUE);
 					phoneNoValidity = true;
 				}
-			}
-			else {
+			} else {
 				lblRegisterPhoneNoOverlapped.setVisible(true);
 				lblRegisterPhoneNoOverlapped.setForeground(Color.RED);
 				lblRegisterPhoneNoOverlapped.setText("핸드폰번호가 올바르지 않습니다.");

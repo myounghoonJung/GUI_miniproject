@@ -15,7 +15,7 @@ import java.awt.Color;
 import javax.swing.JTable;
 
 public class BorrowInfo extends JFrame {
-	
+
 	private JPanel borrowInfoPanel;
 	private JTable table;
 
@@ -27,18 +27,16 @@ public class BorrowInfo extends JFrame {
 		borrowInfoPanel = new JPanel();
 		borrowInfoPanel.setBackground(Color.ORANGE);
 		borrowInfoPanel.setLayout(null);
-		
-		
-		
-		Object[] colBook = {"도서번호","도서명","대출일","반납예정일"};
+
+		Object[] colBook = { "도서번호", "도서명", "대출일", "반납예정일" };
 		Object[][] rowBook = new Object[0][colBook.length];
 		DefaultTableModel dtm = new DefaultTableModel(rowBook, colBook);
 		table = new JTable(dtm);
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setBounds(25, 39, 550, 200);
 		borrowInfoPanel.add(scroll);
-		
-		int i=0;
+
+		int i = 0;
 		Object[][] row = new Object[user.getBorrowBookList().size()][4];
 		for (String key : user.getBorrowBookList()) {
 			row[i][0] = Frame.getBookList().get(key).getBookNo();
@@ -47,8 +45,7 @@ public class BorrowInfo extends JFrame {
 			row[i][3] = Frame.getBookList().get(key).getReturnDate();
 			dtm.addRow(row[i++]);
 		}
-		
-		
+
 		setContentPane(borrowInfoPanel);
 		setVisible(true);
 	}

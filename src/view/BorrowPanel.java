@@ -27,10 +27,9 @@ public class BorrowPanel extends JPanel implements ActionListener {
 	private DefaultTableModel dtmBook;
 	private JComboBox<String> cbBookSearch;
 	private JTextField tfBookSearch;
-	
+
 	private Manager manager = new Manager();
-	
-	
+
 	public BorrowPanel(Frame f) {
 		tempf = f;
 
@@ -49,26 +48,22 @@ public class BorrowPanel extends JPanel implements ActionListener {
 		borrowSubPanel.setBackground(new Color(255, 218, 185));
 		borrowSubPanel.setBounds(0, 600, 780, 80);
 		borrowSubPanel.setLayout(null);
-		
-		
-		
-		
-		
+
 		JLabel lblBookList = new JLabel("도서 목록");
 		lblBookList.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		lblBookList.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBookList.setBounds(316, 107, 150, 25);
 		borrowMainPanel.add(lblBookList);
-		
-		Object[] colBook = {"도서번호","도서명","저자","출판사","장르","대출 여부"};
+
+		Object[] colBook = { "도서번호", "도서명", "저자", "출판사", "장르", "대출 여부" };
 		Object[][] rowBook = new Object[0][colBook.length];
 		dtmBook = new DefaultTableModel(rowBook, colBook);
 		tbBook = new JTable(dtmBook);
 		JScrollPane scrollBook = new JScrollPane(tbBook);
 		scrollBook.setBounds(40, 208, 700, 263);
 		borrowMainPanel.add(scrollBook);
-		
-		int i2=0;
+
+		int i2 = 0;
 		Object[][] row2 = new Object[Frame.getBookList().size()][6];
 		for (String key : Frame.getBookList().keySet()) {
 			row2[i2][0] = Frame.getBookList().get(key).getBookNo();
@@ -77,73 +72,63 @@ public class BorrowPanel extends JPanel implements ActionListener {
 			row2[i2][3] = Frame.getBookList().get(key).getPublisher();
 			row2[i2][4] = Frame.getBookList().get(key).getGenre();
 			String borrowStatus;
-			if (Frame.getBookList().get(key).isBorrowPossibility()) borrowStatus = "대출 가능"; 
-			else borrowStatus = "대출 중";
+			if (Frame.getBookList().get(key).isBorrowPossibility())
+				borrowStatus = "대출 가능";
+			else
+				borrowStatus = "대출 중";
 			row2[i2][5] = borrowStatus;
 			dtmBook.addRow(row2[i2++]);
 		}
-		
+
 		cbBookSearch = new JComboBox();
-		cbBookSearch.setModel(new DefaultComboBoxModel(new String[] {"전체 도서", "도서번호", "도서명", "저자", "출판사", "장르", "대출 도서"}));
+		cbBookSearch.setModel(
+				new DefaultComboBoxModel(new String[] { "전체 도서", "도서번호", "도서명", "저자", "출판사", "장르", "대출 도서" }));
 		cbBookSearch.setBounds(42, 146, 101, 27);
 		borrowMainPanel.add(cbBookSearch);
-		
+
 		tfBookSearch = new JTextField();
 		tfBookSearch.setBounds(138, 145, 487, 26);
 		borrowMainPanel.add(tfBookSearch);
 		tfBookSearch.setColumns(10);
-		
+
 		JButton btnBookSearch = new JButton("도서 조회");
 		btnBookSearch.setBounds(623, 145, 117, 29);
 		borrowMainPanel.add(btnBookSearch);
 		btnBookSearch.setActionCommand("BookSearch");
-		
+
 		JButton btnBookBorrow = new JButton("도서 대출");
 		btnBookBorrow.setBounds(623, 173, 117, 29);
 		borrowMainPanel.add(btnBookBorrow);
 		btnBookBorrow.setActionCommand("BookBorrow");
-		
+
 		JButton btnBack = new JButton("뒤로 가기");
 		btnBack.setBounds(331, 25, 117, 29);
 		btnBack.setActionCommand("Back");
 		borrowSubPanel.add(btnBack);
-		
-		
-		
-		
+
 		// 리스너
 		btnBookSearch.addActionListener(this);
 		btnBookBorrow.addActionListener(this);
 		btnBack.addActionListener(this);
-		
-		
-		
-		
-		
-		
-		
+
 		add(borrowMainPanel);
 		add(borrowSubPanel);
-		
-	
-		
-	}
 
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		
+
 		if (e.getActionCommand().equals("BookBorrow")) {
 			try {
 				int row = tbBook.getSelectedRow();
 				dtmBook.getValueAt(row, 0); // 에러띄우기용
-				
+
 				String borrowUserId = Frame.getLoginUser().getUserId();
-				
+
 				boolean borrowUserIdVal = false;
 				boolean borrowBookVal = false;
-				
+
 				for (String key : Frame.getBookList().keySet()) {
 					if (key.equals(dtmBook.getValueAt(row, 0))) {
 						if (Frame.getBookList().get(key).isBorrowPossibility()) {
@@ -152,7 +137,8 @@ public class BorrowPanel extends JPanel implements ActionListener {
 								if (u.getUserId().equals(borrowUserId)) {
 									manager.setBookBorrow(key, borrowUserId, u);
 									Frame.getLoginUser().getBorrowBookList().add(key);
-									Frame.getLoginUser().setBorrowBookCount(Frame.getLoginUser().getBorrowBookList().size());
+									Frame.getLoginUser()
+											.setBorrowBookCount(Frame.getLoginUser().getBorrowBookList().size());
 									borrowUserIdVal = true;
 									break;
 								}
